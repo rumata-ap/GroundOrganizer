@@ -1,0 +1,107 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:GroundOrganizer"
+                    xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+
+    <col:ArrayList x:Key="GroundTypeArr" >
+        <sys:String>Крупнообломочные с песчаным заполнителем и пески кроме мелких и пылеватых</sys:String>
+        <sys:String>Пески мелкие</sys:String>
+        <sys:String>Пески пылеватые маловлажные</sys:String>
+        <sys:String>Пески пылеватые влажные насыщенные водой</sys:String>
+        <sys:String>Пески рыхлые</sys:String>
+        <sys:String>Глинистые, а также крупнообломочные с глинистым заполнителем при IL&lt;=0.25</sys:String>
+        <sys:String>Глинистые, а также крупнообломочные с глинистым заполнителем при 0.25&lt;IL&lt;=0.5</sys:String>
+        <sys:String>Глинистые, а также крупнообломочные с глинистым заполнителем при 0.5&lt;IL</sys:String>
+    </col:ArrayList>
+
+
+    <Style x:Key="PlayGroundDataGridStyle" TargetType="DataGrid" >
+        <Setter Property="RowBackground" Value="LavenderBlush" />
+        <Setter Property="AlternatingRowBackground" Value="LavenderBlush" />
+    </Style>
+
+    <Style x:Key="IGEsDataGridStyle" TargetType="DataGrid" >
+        <Setter Property="RowBackground" Value="PaleGoldenrod" />
+        <Setter Property="AlternatingRowBackground" Value="PaleGoldenrod" />
+    </Style>
+
+    <Style x:Key="BoresDataGridStyle" TargetType="DataGrid" >
+        <Setter Property="RowBackground" Value="LightBlue" />
+        <Setter Property="AlternatingRowBackground" Value="LightBlue" />
+    </Style>
+
+    <Style x:Key="LayersDataGridStyle" TargetType="DataGrid" >
+        <Setter Property="RowBackground" Value="Moccasin" />
+        <Setter Property="AlternatingRowBackground" Value="Moccasin" />
+    </Style>
+
+    <Style x:Key="StructuresDataGridStyle" TargetType="DataGrid" >
+        <Setter Property="RowBackground" Value="Azure" />
+        <Setter Property="AlternatingRowBackground" Value="Azure" />
+    </Style>
+
+    <Style x:Key="RedPlanningDataGridStyle" TargetType="DataGrid" >
+        <Setter Property="RowBackground" Value="LightPink" />
+        <Setter Property="AlternatingRowBackground" Value="LightPink" />
+    </Style>
+
+    <Style x:Key="BlackPlanningDataGridStyle" TargetType="DataGrid" >
+        <Setter Property="RowBackground" Value="LightGray" />
+        <Setter Property="AlternatingRowBackground" Value="LightGray" />
+    </Style>
+
+    <Style x:Key="FoundationsDataGridStyle" TargetType="DataGrid" >
+        <Setter Property="RowBackground" Value="Bisque" />
+        <Setter Property="AlternatingRowBackground" Value="Bisque" />
+    </Style>
+
+    <Style x:Key="HeaderGridStyle" TargetType="DataGridColumnHeader" >
+        <!--<Setter Property="HorizontalAlignment" Value="Center" />-->
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <!--<Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="0,0,1,0"/>-->
+        <!--<Setter Property="Width" Value="520"/>-->
+    </Style>
+
+    <Style x:Key="CellGridStyle" TargetType="DataGridCell">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Width" Value=" 80"/>
+    </Style>
+
+    <Style x:Key="RowGridStyle" TargetType="DataGridRow">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="DataGridHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="MinHeight" Value="25"/>
+        <Setter Property="BorderBrush" Value="Black"/>
+        <Setter Property="BorderThickness" Value="0,0,1,2"/>
+        <Setter Property="Background" Value="LightGray"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="buttonStyle" TargetType="Button">
+        <Setter Property="Margin" Value="3"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Background" Value="MintCream"/>
+    </Style>
+
+    <TextBlock x:Key="ПараметрыЗаголовок" Margin="3">Параметры проекта</TextBlock>
+    <TextBlock x:Key="ПлощадкиЗаголовок" Margin="3">Площадки</TextBlock>
+    <TextBlock x:Key="СеченияЗаголовок" Margin="3">Сечения</TextBlock>
+    <TextBlock x:Key="УсилияЗаголовок" Margin="3">Усилия</TextBlock>
+    <TextBlock x:Key="АрматураЗаголовок" Margin="3">Арматура</TextBlock>
+    <TextBlock x:Key="БетонЗаголовок" Margin="3">Бетон</TextBlock>
+    <TextBlock x:Key="ЭлементыЗаголовок" Margin="3">Элементы</TextBlock>
+    <TextBlock x:Key="ТрещиностойкостьЗаголовок" Margin="3">Трещиностойкость</TextBlock>
+    <TextBlock x:Key="РасчетЗаголовок" Margin="3">Расчет</TextBlock>
+    <TextBlock x:Key="ВыводЗаголовок" Margin="3">Вывод результатов</TextBlock>
+    <TextBlock x:Key="ЗакреплениеЗаголовок" Text="Условия закрепления концов элемента" FontSize="12" Foreground="Blue"/>
+    <TextBlock x:Key="ElemTypeGroupBox" FontSize="12" Foreground="Blue">Тип элементов</TextBlock>
+
+    <Image x:Key="Иконка1" Source="/Images/Icon1.png"/>
+    <sys:Double x:Key="rowsHeight">25</sys:Double>
+</ResourceDictionary>

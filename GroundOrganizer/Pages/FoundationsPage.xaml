@@ -1,0 +1,377 @@
+﻿<Page x:Class="GroundOrganizer.FoundationsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GroundOrganizer"
+      mc:Ignorable="d" 
+      Background="White"  FontSize="14"
+      Title="FoundationsPage">
+
+    <Page.DataContext>
+        <local:ViewModel/>
+    </Page.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                    <TextBlock Text="Формирование списка фундаментов сооружения:  "  Margin="3" />
+                    <TextBlock Text="{Binding NameStructure}" Margin="3" Foreground="Blue" FontWeight="Bold" />
+                </StackPanel>
+            </GroupBox.Header>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3" HorizontalAlignment="Left">
+                    <Button  Command="{Binding AddFoundation}" Margin="3" Background="White" BorderThickness="0" ToolTip="Добавить">
+                        <Button.Content>
+                            <Image Source="/Images/Bookmark-add-icon32.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Command="{Binding RenumFoundations}"  Margin="3" Background="White" BorderThickness="0" ToolTip="Перенумеровать">
+                        <Button.Content>
+                            <Image Source="/Images/text-list-numbers-icon32.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding UpdateFoundations}" Margin="3" Background="White" BorderThickness="0" ToolTip="Сохранить в БД">
+                        <Button.Content>
+                            <Image Source="/Images/database-accept-icon.png" />
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding ImportFoundationsFromCSV}" Margin="3" Background="White" BorderThickness="0" ToolTip="Импорт из *.xlsx">
+                        <Button.Content>
+                            <Image Source="/Images/XLSX_import-32.png" />
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding ExportFoundationsToCSV}" Margin="3" Background="White" BorderThickness="0" ToolTip="Экспорт в *.xlsx">
+                        <Button.Content>
+                            <Image Source="/Images/XLSX_export-32.png" />
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding ImportFoundationsFromDXF}" Margin="3" Background="White" BorderThickness="0" ToolTip="Импорт из *.dxf">
+                        <Button.Content>
+                            <Image Source="/Images/interfaceDXF.png" />
+                        </Button.Content>
+                    </Button>
+                    
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal" Margin="3">
+                    <Button ToolTip="Открыть графический вид"
+                             Command="{Binding DrowFoundations}" Margin="3" Background="White" BorderThickness="0">
+                    <Button.Content>
+                            <Image Source="/Images/drawing32.png"/>
+                    </Button.Content>
+                </Button>
+                    <Button  ToolTip="Справка"
+                         Command="{Binding HelpFoundation}" Margin="3" Background="White" BorderThickness="0">
+                        <Button.Content>
+                            <Image Source="/Images/Help-and-Support-icon32.png"/>
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+
+                <DataGrid  x:Name="FoundationsDataGrid" Grid.Row="1"
+                       MaxHeight="250"  MinColumnWidth="30"
+                       Margin="3"                    
+                       ItemsSource="{Binding ListFoundation}" 
+                       AutoGenerateColumns="False" 
+                       Style="{StaticResource FoundationsDataGridStyle}" 
+                       RowHeight="{DynamicResource rowsHeight}"
+                       SelectedItem="{Binding SelectedFoundation}"
+                       ColumnHeaderStyle="{DynamicResource DataGridHeaderStyle}">
+                    <DataGrid.ContextMenu>
+                        <ContextMenu Opacity="0.9">
+                            <MenuItem Header="Изменить свойства фундамента" Command="{Binding ShowFoundProps}"></MenuItem>
+                            <MenuItem Header="Пересчитать отметки всех фундаментов" Command="{Binding CalculateLevelsFounds}"></MenuItem>
+                            <!--<MenuItem Header="Перенумеровать" Command="{Binding RenumIGEs}"></MenuItem>
+                            <MenuItem Header="Сохранить в БД" Command="{Binding UpdateIGEs}"></MenuItem>
+                            <MenuItem Header="Сохранить таблицу в *.csv" ></MenuItem>
+                            <MenuItem Header="Заполнить таблицу из *.csv" ></MenuItem>-->
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                    
+                    <DataGrid.Columns >
+                        <DataGridTextColumn  Header="#" Binding="{Binding Path=Number}" />
+                        <!--<DataGridTextColumn Header="Класс" Binding="{Binding Path=ClassId}" IsReadOnly="True" HeaderStyle="{StaticResource HeaderGridStyle}" />-->
+                        <DataGridTextColumn  Header="Марка" Binding="{Binding Path=Name}"  CellStyle="{StaticResource CellGridStyle}"/>
+
+                        <DataGridTextColumn  Binding="{Binding Path=B}"  CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="B"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=L}"  CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="L"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=D1}"  CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="d"/>
+                                    <TextBlock Text="1" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Db}"  CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="d"/>
+                                    <TextBlock Text="b" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Hs}"  CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="h"/>
+                                    <TextBlock Text="s" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Hcf}"  CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="h"/>
+                                    <TextBlock Text="cf" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Ycf}"  CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel >
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="&#x03B3;" FontSize="16"/>
+                                        <TextBlock Text="cf" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text=" [т"  Foreground="DarkGoldenrod"/>
+                                        <TextBlock Text="/м"  Foreground="DarkGoldenrod"/>
+                                        <TextBlock Text="3" FontSize="10" VerticalAlignment="Top"  Foreground="DarkGoldenrod"/>
+                                        <TextBlock Text="]"  Foreground="DarkGoldenrod"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=X}" CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="X"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Y}" CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Y"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridCheckBoxColumn Header="Подвал" Binding="{Binding Path=Basement}" CellStyle="{StaticResource CellGridStyle}"/>
+
+                        <DataGridComboBoxColumn x:Name="typeFondsListCbxCol" SelectedItemBinding="{Binding Path=Type}">
+                            <DataGridComboBoxColumn.Header>
+                                <StackPanel>
+                                    <TextBlock Text="Тип" />
+                                </StackPanel>
+                            </DataGridComboBoxColumn.Header>
+                        </DataGridComboBoxColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+        </GroupBox>
+
+        <GroupBox Grid.Row="1">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Формирование списка нагрузок на фундамент:  " HorizontalAlignment="Center" Margin="3" />
+                    <TextBlock Text="{Binding NameFoundation}" HorizontalAlignment="Center" Margin="3" Foreground="Blue" FontWeight="Bold" />
+                </StackPanel>
+            </GroupBox.Header>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3">
+                    <Button  Command="{Binding AddFoundLoad}" Margin="3" Background="White" BorderThickness="0" ToolTip="Добавить">
+                        <Button.Content>
+                            <Image Source="/Images/Bookmark-add-icon32.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Command="{Binding RenumFoundLoads}"  Margin="3" Background="White" BorderThickness="0" ToolTip="Перенумеровать">
+                        <Button.Content>
+                            <Image Source="/Images/text-list-numbers-icon32.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding UpdateFoundLoads}" Margin="3" Background="White" BorderThickness="0" ToolTip="Сохранить в БД">
+                        <Button.Content>
+                            <Image Source="/Images/database-accept-icon.png" />
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding ImportFoundLoadsFromCSV}" Margin="3" Background="White" BorderThickness="0" ToolTip="Импорт из *.xlsx">
+                        <Button.Content>
+                            <Image Source="/Images/XLSX_import-32.png" />
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding ExportFoundLoadsToCSV}" Margin="3" Background="White" BorderThickness="0" ToolTip="Экспорт в *.xlsx">
+                        <Button.Content>
+                            <Image Source="/Images/XLSX_export-32.png" />
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+
+                <Button  Grid.Row="0" Width="32" HorizontalAlignment="Right" 
+                         Command="{Binding HelpLoads}" Margin="3" Background="White" BorderThickness="0">
+                    <Button.Content>
+                        <Image Source="/Images/Help-and-Support-icon32.png"/>
+                    </Button.Content>
+                </Button>
+
+                <DataGrid  x:Name="ForcesDataGrid" Grid.Row="1" 
+                   MaxHeight="250"  MinColumnWidth="40" 
+                   Margin="3"                    
+                   ItemsSource="{Binding ListFoundLoad}" 
+                   AutoGenerateColumns="False" 
+                   Style="{StaticResource LayersDataGridStyle}" 
+                   RowHeight="{DynamicResource rowsHeight}"
+                   SelectedItem="{Binding SelectedFoundLoad}"
+                   ColumnHeaderStyle="{DynamicResource DataGridHeaderStyle}">
+                    <DataGrid.Columns >
+                        <DataGridTextColumn  Header="#" Binding="{Binding Path=Number}" />
+                        <!--<DataGridTextColumn Header="Класс" Binding="{Binding Path=ClassId}" IsReadOnly="True" HeaderStyle="{StaticResource HeaderGridStyle}" />-->
+
+
+                        <DataGridTextColumn  Binding="{Binding Path=N}"                                      
+                                     CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel >
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="N"/>
+                                        <TextBlock Text=" [тс]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Mx}"                                      
+                                     CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="M"/>
+                                    <TextBlock Text="x" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    <TextBlock Text=" [тсм]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=My}"                                      
+                                     CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="M"/>
+                                    <TextBlock Text="y" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    <TextBlock Text=" [тсм]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Qx}"                                      
+                                     CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Q"/>
+                                    <TextBlock Text="x" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    <TextBlock Text=" [тс]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Qy}"                                      
+                                     CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="Q"/>
+                                    <TextBlock Text="y" FontSize="10" VerticalAlignment="Bottom" Margin="0,6,0,0"/>
+                                    <TextBlock Text=" [тс]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=q}"                                      
+                                     CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="q"/>
+                                    <TextBlock Text=" [т"  Foreground="DarkGoldenrod"/>
+                                    <TextBlock Text="/м"  Foreground="DarkGoldenrod"/>
+                                    <TextBlock Text="2" FontSize="10" VerticalAlignment="Top"  Foreground="DarkGoldenrod"/>
+                                    <TextBlock Text="]"  Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <UniformGrid Columns="2" Rows="3" Grid.Row="2">
+                    <Button Content="R по скважине" Command="{Binding CalcRinBore}" Margin="3"/>
+                    <Button Content="Осадка по скважине" Command="{Binding CalcSpInBore}" Margin="3"/>
+                    <Button Content="R по скважинам" Command="{Binding CalcRinBores}" Margin="3"/>
+                    <Button Content="Осадка по скважинам" Command="{Binding CalcSpInBores}" Margin="3"/>
+                    <Button Content="R по координатам" Command="{Binding CalcRinCoords}" Margin="3"/>
+                    <Button Content="Осадка по координатам" Command="{Binding RenumFoundLoads}" Margin="3"/>
+                </UniformGrid>
+
+            </Grid>
+
+        </GroupBox>
+
+    </Grid>
+
+</Page>

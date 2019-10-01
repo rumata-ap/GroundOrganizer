@@ -1,0 +1,71 @@
+﻿<Window x:Class="GroundOrganizer.CanwasWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroundOrganizer"
+        mc:Ignorable="d"
+        FontSize="14"
+        SizeToContent="WidthAndHeight" 
+        WindowStyle="ToolWindow" >
+
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0" VerticalAlignment="Top">
+            <ScrollViewer x:Name="CanvasScrollViewer" HorizontalScrollBarVisibility="Visible">
+                <Canvas x:Name="drawArea" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="5" Background="White">
+                    <Canvas.ContextMenu>
+                        <ContextMenu Opacity="0.9">
+                            <MenuItem Header="Изменить свойства фундаментов" Command="{Binding ShowFoundProps}"></MenuItem>
+                            <MenuItem Header="Отрисовать номера фундаментов" Click="MenuItem_DrowNumbers_Click"></MenuItem>
+                            <!--<MenuItem Header="Перенумеровать" Command="{Binding RenumIGEs}"></MenuItem>
+                            <MenuItem Header="Сохранить в БД" Command="{Binding UpdateIGEs}"></MenuItem>
+                            <MenuItem Header="Сохранить таблицу в *.csv" ></MenuItem>
+                            <MenuItem Header="Заполнить таблицу из *.csv" ></MenuItem>-->
+                        </ContextMenu>
+                    </Canvas.ContextMenu>
+                </Canvas>
+            </ScrollViewer>
+            <Popup x:Name="popup1" StaysOpen="False" Placement="Mouse" MaxWidth="180" AllowsTransparency="True" IsOpen="False" >
+                <TextBlock TextWrapping="Wrap" Width="180" Background="LightPink" Opacity="0.8" >
+                  Чтобы узнать больше, посетите сайт metanit.com
+                </TextBlock>
+            </Popup>
+        </StackPanel>
+
+        <StatusBar Grid.Row="1" VerticalAlignment="Bottom">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                <TextBlock Text="{Binding BasePath}" FontSize="10" Foreground="Gray"/>
+                <TextBlock Text=" | " FontSize="10" HorizontalAlignment="Center"/>
+                <TextBlock Text="Площадка:" FontSize="10" HorizontalAlignment="Center"/>
+                <TextBlock Text="  " FontSize="10" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding NamePlayGround}" FontSize="10" Foreground="Blue" FontWeight="Bold"/>
+                <TextBlock Text=" | " FontSize="10"  />
+                <TextBlock Text="Скважина:" FontSize="10" />
+                <TextBlock Text="  " FontSize="10" />
+                <TextBlock Text="{Binding NameBore}" FontSize="10" Foreground="Blue" FontWeight="Bold"  />
+                <TextBlock Text=" | " FontSize="10"  />
+                <TextBlock Text="Сооружение:" FontSize="10" />
+                <TextBlock Text="  " FontSize="10" />
+                <TextBlock Text="{Binding NameStructure}" FontSize="10" Foreground="Blue" FontWeight="Bold"  />
+                <TextBlock Text=" | " FontSize="10"  />
+                <TextBlock Text="Фундамент:" FontSize="10" />
+                <TextBlock Text="  " FontSize="10" />
+                <TextBlock Text="{Binding NameFoundation}" FontSize="10" Foreground="Blue" FontWeight="Bold"  />
+                <TextBlock Text=" | " FontSize="10"  />
+                <TextBlock Text="Нагрузка:" FontSize="10" />
+                <TextBlock Text="  " FontSize="10" />
+                <TextBlock Text="{Binding NameFoundLoad}" FontSize="10" Foreground="Blue" FontWeight="Bold"  />
+            </StackPanel>
+        </StatusBar>
+
+    </Grid>
+</Window>

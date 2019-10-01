@@ -1,0 +1,350 @@
+﻿<Page x:Class="GroundOrganizer.StructuresPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:GroundOrganizer"
+      mc:Ignorable="d" 
+      Background="White"  FontSize="14"
+      Title="StructuresPage">
+
+    <Page.DataContext>
+        <local:ViewModel/>
+    </Page.DataContext>
+
+    <Grid x:Name="BoresStackGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0">
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                    <TextBlock Text="Сооружения площадки:  " HorizontalAlignment="Center" Margin="3" />
+                    <TextBlock Text="{Binding NamePlayGround}" HorizontalAlignment="Center" Margin="3" Foreground="Blue" FontWeight="Bold" />
+                </StackPanel>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3">
+                    <Button  Command="{Binding AddStructure}" Margin="3" Background="White" BorderThickness="0" ToolTip="Добавить">
+                        <Button.Content>
+                            <Image Source="/Images/Bookmark-add-icon32.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button Command="{Binding RenumStructures}"  Margin="3" Background="White" BorderThickness="0" ToolTip="Перенумеровать">
+                        <Button.Content>
+                            <Image Source="/Images/text-list-numbers-icon32.png"/>
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding UpdateStructures}" Margin="3" Background="White" BorderThickness="0" ToolTip="Сохранить в БД">
+                        <Button.Content>
+                            <Image Source="/Images/database-accept-icon.png" />
+                        </Button.Content>
+                    </Button>
+                    <Button  Command="{Binding ImportPlanningsFromDXF}" Margin="3" Background="White" BorderThickness="0" ToolTip="Импорт планировки из *.dxf">
+                        <Button.Content>
+                            <Image Source="/Images/interfaceDXF.png" />
+                        </Button.Content>
+                    </Button>
+                </StackPanel>
+
+                <Button Grid.Row="0" Width="32" HorizontalAlignment="Right"
+                        ToolTip="{Binding StructureNote}"
+                        Command="" Margin="3" Background="White" BorderThickness="0">
+                    <Button.Content>
+                        <Image Source="/Images/Help-and-Support-icon32.png"/>
+                    </Button.Content>
+                </Button>
+
+                <DataGrid  x:Name="BoresDataGrid" Grid.Row="1"
+                           MaxHeight="250"  MinColumnWidth="30"
+                           Margin="3"     HorizontalAlignment="Left"               
+                           ItemsSource="{Binding ListStructure}" 
+                           AutoGenerateColumns="False"                          
+                           Style="{StaticResource StructuresDataGridStyle}" 
+                           RowHeight="{DynamicResource rowsHeight}"
+                           SelectedItem="{Binding SelectedStructure}" 
+                           ColumnHeaderStyle="{DynamicResource DataGridHeaderStyle}">
+                    <DataGrid.Columns >
+                        <DataGridTextColumn  Header="#" Binding="{Binding Path=Number}" />
+                        <!--<DataGridTextColumn Header="Класс" Binding="{Binding Path=ClassId}" IsReadOnly="True" HeaderStyle="{StaticResource HeaderGridStyle}" />-->
+                        <DataGridTextColumn  Header="Наименование" Binding="{Binding Path=Name}"/>
+
+
+                        <DataGridTextColumn  Binding="{Binding Path=L}" CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="L"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=H}" CellStyle="{StaticResource CellGridStyle}">
+                            <DataGridTextColumn.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="H"/>
+                                    <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridTextColumn  Binding="{Binding Path=Null}" MinWidth="100">
+                            <DataGridTextColumn.Header>
+                                <StackPanel >
+                                    <TextBlock Text="Абс. отметка"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <TextBlock Text="нуля" HorizontalAlignment="Center"/>
+                                        <TextBlock Text=" [м]" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="DarkGoldenrod"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn>
+
+                        <DataGridComboBoxColumn x:Name="flexListCbxCol"
+                                        SelectedItemBinding="{Binding Path=flexStructure}">
+                            <DataGridComboBoxColumn.Header>
+                                <StackPanel>
+                                    <TextBlock Text="Схема" />
+                                </StackPanel>
+                            </DataGridComboBoxColumn.Header>
+                        </DataGridComboBoxColumn>
+
+                        <DataGridTemplateColumn Header="Описание" MinWidth="200">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Path= Description}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                            <DataGridTemplateColumn.CellEditingTemplate>
+                                <DataTemplate>
+                                    <TextBox  Text="{Binding Path= Description}" TextWrapping="Wrap" Background="LightGoldenrodYellow"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellEditingTemplate>
+                        </DataGridTemplateColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>
+
+            </Grid>
+
+        </GroupBox>
+
+        <GroupBox Grid.Row="1" >
+            <GroupBox.Header>
+                <StackPanel Orientation="Horizontal" Grid.Row="0">
+                    <TextBlock Text="Вертикальная планировка сооружения:  " HorizontalAlignment="Center" Margin="3" />
+                    <TextBlock Text="{Binding NameStructure}" HorizontalAlignment="Center" Margin="3" Foreground="Blue" FontWeight="Bold" />
+                </StackPanel>
+            </GroupBox.Header>
+
+            <TabControl SelectedIndex="0" TabStripPlacement="Bottom">
+                <TabItem x:Name="RedPointsTab" Header="Красные отметки" Background="LightPink">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3" HorizontalAlignment="Left">
+                            <Button  Command="{Binding AddRedVertex}" Margin="3" Background="White" BorderThickness="0" ToolTip="Добавить">
+                                <Button.Content>
+                                    <Image Source="/Images/Bookmark-add-icon32.png"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Command="{Binding RenumRedVertexes}"  Margin="3" Background="White" BorderThickness="0" ToolTip="Перенумеровать">
+                                <Button.Content>
+                                    <Image Source="/Images/text-list-numbers-icon32.png"/>
+                                </Button.Content>
+                            </Button>
+                            <Button  Command="{Binding UpdateRedPlanning}" Margin="3" Background="White" BorderThickness="0" ToolTip="Сохранить в БД">
+                                <Button.Content>
+                                    <Image Source="/Images/database-accept-icon.png" />
+                                </Button.Content>
+                            </Button>
+                            <Button  Command="{Binding ImportRedPlanningFromCSV}" Margin="3" Background="White" BorderThickness="0" ToolTip="Импорт из *.csv">
+                                <Button.Content>
+                                    <Image Source="/Images/icons8-import-csv-32.png" />
+                                </Button.Content>
+                            </Button>
+                            <Button  Command="{Binding ExportRedPlanningToCSV}" Margin="3" Background="White" BorderThickness="0" ToolTip="Экспорт в *.csv">
+                                <Button.Content>
+                                    <Image Source="/Images/icons8-export-csv-32.png" />
+                                </Button.Content>
+                            </Button>
+                            <Button  Command="{Binding CreateRedPlanningMesh}" Margin="3" Background="White" BorderThickness="0" ToolTip="Создать триангуляционную сеть">
+                                <Button.Content>
+                                    <Image Source="/Images/icons8-spiderweb-32.png" />
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+
+                        <Button Grid.Row="0" Width="32" HorizontalAlignment="Right" 
+                        Command="" Margin="3" Background="White" BorderThickness="0">
+                            <Button.Content>
+                                <Image Source="/Images/Help-and-Support-icon32.png"/>
+                            </Button.Content>
+                        </Button>
+
+                        <DataGrid  x:Name="PlanningsDataGrid" Grid.Row="1"
+                           MaxHeight="250"  MinColumnWidth="30"
+                           Margin="3"     HorizontalAlignment="Left"               
+                           ItemsSource="{Binding RedPlanning}" 
+                           AutoGenerateColumns="False" 
+                           Style="{StaticResource RedPlanningDataGridStyle}" 
+                           RowHeight="{DynamicResource rowsHeight}"
+                           SelectedItem="{Binding SelectedRedVertex}" 
+                           ColumnHeaderStyle="{DynamicResource DataGridHeaderStyle}">
+                            <DataGrid.Columns >
+                                <DataGridTextColumn  Header="#" Binding="{Binding Path=Number}" />
+                                <!--<DataGridTextColumn Header="Класс" Binding="{Binding Path=ClassId}" IsReadOnly="True" HeaderStyle="{StaticResource HeaderGridStyle}" />-->
+
+                                <DataGridTextColumn  Binding="{Binding Path=X}" CellStyle="{StaticResource CellGridStyle}">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="X"/>
+                                            <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+
+                                <DataGridTextColumn  Binding="{Binding Path=Y}" CellStyle="{StaticResource CellGridStyle}">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Y"/>
+                                            <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+
+                                <DataGridTextColumn  Binding="{Binding Path=Red}" MinWidth="120">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel >
+                                            <TextBlock Text="Красная отметка"/>
+                                            <TextBlock Text=" [м]" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="DarkGoldenrod"/>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </TabItem>
+
+                <TabItem x:Name="BlackPointsTab" Header="Черные отметки" Background="LightGray">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="3" HorizontalAlignment="Left">
+                            <Button  Command="{Binding AddBlackVertex}" Margin="3" Background="White" BorderThickness="0" ToolTip="Добавить">
+                                <Button.Content>
+                                    <Image Source="/Images/Bookmark-add-icon32.png"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Command="{Binding RenumBlackVertexes}"  Margin="3" Background="White" BorderThickness="0" ToolTip="Перенумеровать">
+                                <Button.Content>
+                                    <Image Source="/Images/text-list-numbers-icon32.png"/>
+                                </Button.Content>
+                            </Button>
+                            <Button  Command="{Binding UpdateBlackPlanning}" Margin="3" Background="White" BorderThickness="0" ToolTip="Сохранить в БД">
+                                <Button.Content>
+                                    <Image Source="/Images/database-accept-icon.png" />
+                                </Button.Content>
+                            </Button>
+                            <Button  Command="{Binding ImportBlackPlanningFromCSV}" Margin="3" Background="White" BorderThickness="0" ToolTip="Импорт из *.csv">
+                                <Button.Content>
+                                    <Image Source="/Images/icons8-import-csv-32.png" />
+                                </Button.Content>
+                            </Button>
+                            <Button  Command="{Binding ExportBlackPlanningToCSV}" Margin="3" Background="White" BorderThickness="0" ToolTip="Экспорт в *.csv">
+                                <Button.Content>
+                                    <Image Source="/Images/icons8-export-csv-32.png" />
+                                </Button.Content>
+                            </Button>
+                            <Button  Command="{Binding CreateBlackPlanningMesh}" Margin="3" Background="White" BorderThickness="0" ToolTip="Создать триангуляционную сеть">
+                                <Button.Content>
+                                    <Image Source="/Images/icons8-spiderweb-32.png" />
+                                </Button.Content>
+                            </Button>
+
+                        </StackPanel>
+
+                        <Button Grid.Row="0" Width="32" HorizontalAlignment="Right" 
+                        Command="" Margin="3" Background="White" BorderThickness="0">
+                            <Button.Content>
+                                <Image Source="/Images/Help-and-Support-icon32.png"/>
+                            </Button.Content>
+                        </Button>
+
+                        <DataGrid  x:Name="BlackPointsDataGrid" Grid.Row="1"
+                                   MaxHeight="250"  MinColumnWidth="30"
+                                   Margin="3"     HorizontalAlignment="Left"               
+                                   ItemsSource="{Binding BlackPlanning}" 
+                                   SelectedItem="{Binding SelectedBlackVertex}" 
+                                   AutoGenerateColumns="False" 
+                                   Style="{StaticResource BlackPlanningDataGridStyle}" 
+                                   RowHeight="{DynamicResource rowsHeight}"
+                                   ColumnHeaderStyle="{DynamicResource DataGridHeaderStyle}">
+                            <DataGrid.Columns >
+                                <DataGridTextColumn  Header="#" Binding="{Binding Path=Number}" />
+                                <!--<DataGridTextColumn Header="Класс" Binding="{Binding Path=ClassId}" IsReadOnly="True" HeaderStyle="{StaticResource HeaderGridStyle}" />-->
+
+                                <DataGridTextColumn  Binding="{Binding Path=X}" CellStyle="{StaticResource CellGridStyle}">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="X"/>
+                                            <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+
+                                <DataGridTextColumn  Binding="{Binding Path=Y}" CellStyle="{StaticResource CellGridStyle}">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="Y"/>
+                                            <TextBlock Text=" [м]" VerticalAlignment="Bottom" Foreground="DarkGoldenrod"/>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+
+                                <DataGridTextColumn  Binding="{Binding Path=Black}" MinWidth="120">
+                                    <DataGridTextColumn.Header>
+                                        <StackPanel >
+                                            <TextBlock Text="Черная отметка"/>
+                                            <TextBlock Text=" [м]" VerticalAlignment="Bottom" HorizontalAlignment="Center" Foreground="DarkGoldenrod"/>
+                                        </StackPanel>
+                                    </DataGridTextColumn.Header>
+                                </DataGridTextColumn>
+
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </TabItem>
+                
+            </TabControl>
+            
+        </GroupBox>
+
+    </Grid>
+
+</Page>

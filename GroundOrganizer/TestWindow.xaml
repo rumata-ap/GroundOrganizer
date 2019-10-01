@@ -1,0 +1,120 @@
+﻿<RibbonWindow x:Class="GroundOrganizer.TestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroundOrganizer"
+        mc:Ignorable="d"
+        Title="TestWindow" >
+
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
+
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <!--<Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>-->
+
+        <Ribbon Grid.Row="0" Grid.Column="0" x:Name="mainRibbon" Background="White" SelectedIndex="0" >
+
+            <Ribbon.HelpPaneContent>
+                <RibbonButton Label="Справка"/>
+            </Ribbon.HelpPaneContent>
+
+            <!--<Ribbon.QuickAccessToolBar>
+                <RibbonQuickAccessToolBar>
+                    <RibbonButton x:Name ="Save"  />
+                    <RibbonSplitButton x:Name ="Undo" >
+                        <RibbonSplitMenuItem Header="Undo 1" />
+                        <RibbonSplitMenuItem Header="Undo 2" />
+                        <RibbonSplitMenuItem Header="Undo 3" />
+                    </RibbonSplitButton>
+                    <RibbonSplitButton x:Name="Redo"  >
+                        <RibbonSplitMenuItem Header="Redo 1" />
+                        <RibbonSplitMenuItem Header="Redo 2" />
+                    </RibbonSplitButton>
+                </RibbonQuickAccessToolBar>
+            </Ribbon.QuickAccessToolBar>-->
+
+            <Ribbon.ApplicationMenu>
+                <RibbonApplicationMenu KeyTip="F">
+                    <RibbonApplicationMenuItem Header="Настройки"  />
+                    <RibbonApplicationMenuItem Header="Выход"  />
+                </RibbonApplicationMenu>
+            </Ribbon.ApplicationMenu>
+
+            <RibbonTab x:Name="HomeTab" Header="Главная" KeyTip="P" >
+                <!-- Home  group-->
+                <RibbonGroup x:Name="PlaygroundGroup" Header="Площадки">
+                    <RibbonButton   LargeImageSource="/Images/Bookmark-add-icon32.png" Command="{Binding AddPlayGround}" KeyTip="AP"/>
+                    <RibbonButton   LargeImageSource="/Images/text-list-numbers-icon32.png" Command="{Binding RenumPlayGrounds}" KeyTip="X" />
+                    <RibbonButton   LargeImageSource="/Images/Save-icon32.png" Command="{Binding UpdatePlayGrounds}"  KeyTip="Ctrl+S" />
+                </RibbonGroup>
+
+            </RibbonTab>
+            <!-- Ribbon Tab #2: -->
+            <RibbonTab Header="Insert" KeyTip="I">
+            </RibbonTab>
+            <!-- Ribbon Tab #3: -->
+            <RibbonTab Header="PageLayout" KeyTip="L">
+            </RibbonTab>
+
+        </Ribbon>
+
+        <!--<Menu x:Name="mainMenu" Grid.Row="0" HorizontalAlignment="Left" Height="22" VerticalAlignment="Top">
+            <MenuItem Header="Файл">
+                <MenuItem Header="New Project" ></MenuItem>
+                <MenuItem Header="Open Project" >
+                    <MenuItem Header="WinForms"></MenuItem>
+                    <MenuItem Header="WPF" ></MenuItem>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Exit" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Изменить" ></MenuItem>
+            <MenuItem Header="Вид" ></MenuItem>
+            <Button Content="Кнопка в меню" />
+        </Menu>-->
+
+
+        <Frame Grid.Row="1" Grid.Column="0" x:Name="contentFrame" 
+               NavigationUIVisibility="Hidden" 
+               VerticalAlignment="Bottom"
+               Source="/Pages/MainPage.xaml"/>
+
+        <StatusBar Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom" Height="19">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding BasePath}" FontSize="10" Foreground="Gray"/>
+                <TextBlock Text=" | " FontSize="10" HorizontalAlignment="Center"/>
+                <TextBlock Text="Площадка:" FontSize="10" HorizontalAlignment="Center"/>
+                <TextBlock Text="  " FontSize="10" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding NamePlayGround}" FontSize="10" Foreground="Blue" FontWeight="Bold"/>
+                <TextBlock Text=" | " FontSize="10"  />
+                <TextBlock Text="Скважина:" FontSize="10" />
+                <TextBlock Text="  " FontSize="10" />
+                <TextBlock Text="{Binding NameBore}" FontSize="10" Foreground="Blue" FontWeight="Bold"  />
+                <TextBlock Text=" | " FontSize="10"  />
+                <TextBlock Text="Сооружение:" FontSize="10" />
+                <TextBlock Text="  " FontSize="10" />
+                <TextBlock Text="{Binding NameStructure}" FontSize="10" Foreground="Blue" FontWeight="Bold"  />
+                <TextBlock Text=" | " FontSize="10"  />
+                <TextBlock Text="Фундамент:" FontSize="10" />
+                <TextBlock Text="  " FontSize="10" />
+                <TextBlock Text="{Binding NameFoundation}" FontSize="10" Foreground="Blue" FontWeight="Bold"  />
+                <TextBlock Text=" | " FontSize="10"  />
+                <TextBlock Text="Нагрузка:" FontSize="10" />
+                <TextBlock Text="  " FontSize="10" />
+                <TextBlock Text="{Binding NameFoundLoad}" FontSize="10" Foreground="Blue" FontWeight="Bold"  />
+            </StackPanel>
+        </StatusBar>
+
+    </Grid>
+
+    
+</RibbonWindow>
