@@ -13,12 +13,6 @@ namespace GroundOrganizer
     /// </summary>
     public partial class App : Application
     {
-        //public static ViewModel vm;
-        //public App()
-        //{
-        //    InitializeComponent();
-        //    vm = new ViewModel();
-        //}
     }
 }
 
